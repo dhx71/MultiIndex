@@ -98,7 +98,7 @@ Object can be removed with function `remove(indexes)`
 
 ## API ##
 
-see (MultiIndex.md)[doc/MultiIndex.md] under doc/
+see [MultiIndex.md](doc/MultiIndex.md) under doc/
 
 ## TODOs ##
 
