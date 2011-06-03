@@ -7,7 +7,7 @@ You can dynamically add any numbers of indexes to your objects.
 
 A Multi-indexed objects store is created like this:
 
-``` JavaScript
+``` js
     
     var MultiIndex = require('MultiIndex');
     var util = require('util');
@@ -17,7 +17,7 @@ A Multi-indexed objects store is created like this:
 
 You can add an object into the store using the `add(obj, [indexes])` function.
 
-``` JavaScript
+``` js
 
     var obj1 = {
         sessionid:'1'
@@ -34,7 +34,7 @@ You can add an object into the store using the `add(obj, [indexes])` function.
 Object can be indexed at insersion time or later. 
 You can index an object at any time with the `index(id, indexes)` function.
 
-``` JavaScript
+``` js
 
     // index obj1 by username, group, connectionid and city
     store.index(obj1.id, {
@@ -68,7 +68,7 @@ get all objects correspoding to the provided indexes.
 
     var arrObjs = get(indexes)
 
-``` JavaScript
+``` js
 
     var obj = store.getOne({username:'jo'});
     if (obj) {
@@ -79,7 +79,7 @@ get all objects correspoding to the provided indexes.
 
 Iterates through store for objects indexed by indexes.
 
-``` JavaScript
+``` js
 
     store.forEach({city:'montreal'}, function (obj) {
         console.log('sending a message to user:'+obj.username);
@@ -90,7 +90,7 @@ Iterates through store for objects indexed by indexes.
 
 Object can be removed with function `remove(indexes)`
 
-``` JavaScript
+``` js
 
     store.remove({connectionid: connectionid});
 
