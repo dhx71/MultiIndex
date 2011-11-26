@@ -48,7 +48,7 @@ class MultiIndex
         if not item? 
             throw new Error 'No existing item for provided id'
 
-        internalSomeIndexes indexes, (indexName, indexValue) =>
+        _someIndexes indexes, (indexName, indexValue) =>
             # set indexes
             @indexes[indexName] = {} if not @indexes[indexName]?
             @indexes[indexName][indexValue] = {} if not @indexes[indexName][indexValue]?
@@ -73,13 +73,13 @@ class MultiIndex
         removed = 0
         items = []
         if typeof indexes is 'object'
-            items = @internalGet indexes
+            items = @_get indexes
         else
             items.push @data[indexes] if @data[indexes]?
         for item in items
             # delete all indexes to this item
             id = item.id
-            internalSomeIndexes item.indexes, (indexName, indexValue) =>
+            _someIndexes item.indexes, (indexName, indexValue) =>
                 delete @indexes[indexName][indexValue][id]
                 return false
             # delete actual item
@@ -100,7 +100,7 @@ class MultiIndex
                
     ###
     some: (indexes, callback) ->
-        @internalSome indexes, (item) ->
+        @_some indexes, (item) ->
             return callback item.value
         return
 
@@ -113,7 +113,7 @@ class MultiIndex
                signature of the callback is as follow: function (value) {}
         @return {void} nothing
     ###
-    forEach: (indexes, callback) ->
+    foreach: (indexes, callback) ->
         @some indexes, (value) ->
             callback value
             return false
@@ -127,7 +127,7 @@ class MultiIndex
     ###
     get: (indexes) ->
         result = []
-        @forEach indexes, (value) ->
+        @foreach indexes, (value) ->
             result.push value
             return
         return result
@@ -141,7 +141,7 @@ class MultiIndex
     getOne: (indexes) ->
         result = null
         ###
-        internalSomeIndexes indexes, (indexName, indexValue) => 
+        _someIndexes indexes, (indexName, indexValue) => 
             if @indexes[indexName]?[indexValue]?
                 ids = @indexes[indexName][indexValue]
                 for id of ids
@@ -156,26 +156,26 @@ class MultiIndex
         return result
 
     #private:
-    internalGet: (indexes) ->
+    _get: (indexes) ->
         result = []
-        @internalSome indexes, (item) ->
+        @_some indexes, (item) ->
             result.push item
             return false
         return result
     
-    internalGetOne: (indexes) ->
+    _getOne: (indexes) ->
         result = null
-        @internalSome indexes, (item) ->
+        @_some indexes, (item) ->
             result = item
             return true
 #        console.log "get one for #{indexes[@masterIndexName]} returned #{result.indexes[@masterIndexName]}"
         return result
 
     
-    internalSome: (indexes, callback) ->
+    _some: (indexes, callback) ->
         tmp = {}
         # collect all unique id for provided indexes
-        internalSomeIndexes indexes, (indexName, indexValue) => 
+        _someIndexes indexes, (indexName, indexValue) => 
             if @indexes[indexName]?[indexValue]?
                 ids = @indexes[indexName][indexValue]
                 for id of ids
@@ -191,7 +191,7 @@ class MultiIndex
 #                break
         return
 
-    internalSetIndex: (indexName, indexValue, id) ->
+    _setIndex: (indexName, indexValue, id) ->
         @indexes[indexName] = {} if not @indexes[indexName]?
         @indexes[indexName][indexValue] = {} if not @indexes[indexName][indexValue]?
         @indexes[indexName][indexValue][id] = true
@@ -205,7 +205,7 @@ class MultiIndex
     - callback 'username', 'andrew'
     - callback 'id', 1243455
 ###
-internalSomeIndexes = (indexes, callback) ->
+_someIndexes = (indexes, callback) ->
     for indexName of indexes
         indexValues = indexes[indexName]
         if not Array.isArray indexValues

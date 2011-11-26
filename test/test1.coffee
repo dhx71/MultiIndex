@@ -106,9 +106,9 @@ module.exports =
             return n >= 2
         assert.eql n, 2
         
-    'forEach Switch:"SwitchA"': () ->
+    'foreach Switch:"SwitchA"': () ->
         n = 0
-        db.forEach Switch:"SwitchA", (value) ->
+        db.foreach Switch:"SwitchA", (value) ->
             n++
             assert.includes [obj1,obj2,obj3], value
             return n >= 2
@@ -123,9 +123,9 @@ module.exports =
         assert.isDefined obj4.id
         return
 
-    '2nd forEach Switch:"SwitchA"': () ->
+    '2nd foreach Switch:"SwitchA"': () ->
         n = 0
-        db.forEach Switch:"SwitchA", (value) ->
+        db.foreach Switch:"SwitchA", (value) ->
             n++
             assert.includes [obj1,obj2,obj3,obj4], value
             return n >= 2
